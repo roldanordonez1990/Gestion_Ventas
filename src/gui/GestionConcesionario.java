@@ -1,0 +1,212 @@
+package gui;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
+import model.Concesionario;
+import model.controladores.ControladorConcesionario;
+
+
+
+public class GestionConcesionario {
+
+	// Iniciaremos el objeto de conexión a null para poder usarlo cuando queramos
+	static Connection conn = null;
+
+	public static void menuGestionConcesionario()  {
+//		// Al acceder a este menú, lo primero que se hará es intentar conectar con la
+//		// BBDD
+//		try {
+//			// Aquí le daremos valor al objeto con la clase que conecta con la bbdd
+//			conn = ConnectionManagerV2.getConexion();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (ImposibleConectarException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		Scanner sc = new Scanner(System.in);
+		int option = 0;
+
+		do {
+
+			System.out.println("\n\t\t\tGESTIÓN DE FABRICANTES");
+
+			System.out.println("\n\t1.- Listado de concesionario.");
+			System.out.println("\t2.- Añadir concesionario.");
+			System.out.println("\t3.- Modificar concesionario.");
+			System.out.println("\t4.- Borrar concesionario.");
+			System.out.println("\t0.- Salir");
+			System.out.println("\n\tElija una opción: ");
+
+			option = sc.nextInt();
+
+			switch (option) {
+			case 0:
+				System.out.println("Adiós");
+				break;
+			case 1:
+				listado(true);
+				break;
+			case 2:
+				darDeAlta();
+				break;
+			case 3:
+				modificar();
+				break;
+			case 4:
+				baja();
+				break;
+			}
+
+		} while (option != 0);
+	}
+
+	/**
+	 * 
+	 */
+
+	public static void listado(boolean pausafinal)  {
+		List<Concesionario> concesionarios = ControladorConcesionario.getAll();
+		System.out.println("\n\tListado de concesionarios: \n");
+//		for (Concesionario conce : concesionarios) {
+//			System.out.println("\t" + conce.toString());
+//		}
+		if (pausafinal) {
+			System.out.println("\n\tPulse 'Intro' tecla para continuar");
+			Utils.pausa();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param conn
+	 * @throws SQLException
+	 */
+	
+	private static void darDeAlta ()  {
+		System.out.println("\n\tAlta de fabricante\n");
+		
+		Scanner sc = new Scanner(System.in);
+		
+		Concesionario conce = new Concesionario();
+		System.out.print("\nIntroduzca 'CIF' del concesionario: ");
+		conce.setCif(sc.next());
+		System.out.print("\nIntroduzca 'Nombre' del concesionario: ");
+		conce.setNombre(sc.next());
+		System.out.print("\nIntroduzca 'Localidad' del concesionario: ");
+		conce.setLocalidad(sc.next());
+		
+		ControladorConcesionario.almacenarNuevo(conce);  
+
+		System.out.println("\n\tInsertado correctamente!");
+		
+	}
+	
+	/**
+	 * 
+	 * @throws ErrorBBDDException
+	 * @throws SQLException 
+	 */
+	public static void modificar()  {
+		System.out.println("\n\tModificación del concesionario: ");
+		Concesionario conce = new Concesionario();
+		ControladorConcesionario.almacenarModificacion(conce);
+		System.out.println("\n\tEL concesionario se ha modificado correctamente");
+		
+		//Concesionario conce = seleccionPorUsuario();
+		
+//		if(conce != null) {
+//			System.out.println("\n\tIntroduce un CIF nuevo para el concesionario: ");
+//			Scanner sc = new Scanner(System.in);
+//			String cif;
+//			cif = sc.next();
+//			if(!cif.equals("")) 
+//				conce.setCif(cif);
+//			
+//			System.out.println("\n\tIntroduce un Nombre nuevo para el concesionario: ");
+//			String nombre;
+//			nombre = sc.next();
+//			if(!nombre.equals("")) 
+//				conce.setNombre(nombre);
+//			
+//			System.out.println("\n\tIntroduce una Localidad nueva para el concesionario: ");
+//			String localidad;
+//			localidad = sc.next();
+//			if(!localidad.equals("")) {
+//				conce.setLocalidad(localidad);
+//			}
+//			
+//			ControladorConcesionario.almacenarModificacion(conce);
+//			System.out.println("\n\tHas modificado el concesionario correctamente");
+//		}
+		
+	}
+	
+	/**
+	 * 
+	 * @throws ErrorBBDDException
+	 * @throws SQLException
+	 */
+	
+	private static void baja ()  {
+		System.out.println("\n\tEliminación del concesionario\n");
+		Concesionario conce = new Concesionario();
+		ControladorConcesionario.eliminarConcesionario(conce);
+		System.out.println("\n\tEl concesionario ha sido eliminado correctamente");
+		//Scanner sc = new Scanner(System.in);
+		//Concesionario conce = seleccionPorUsuario();
+		
+//		if (conce != null) {		
+//			System.out.print("\n¿Realmente desea eliminar el registro? (S/N): ");
+//			String str = sc.next();
+//			if (str.equalsIgnoreCase("S")) { 		 
+//				ControladorConcesionario.eliminarConcesionario(conce);
+//				System.out.println("\n\tEliminado correctamente!");
+//				
+//			}
+//		}
+	}
+	/**
+	 * @throws SQLException 
+	 * 
+	 */
+	
+//	private static Concesionario seleccionPorUsuario ()  {
+		
+//		System.out.println("\n\tIntroduce un ID del concesionario");
+//		Scanner sc = new Scanner(System.in);
+//		Concesionario conce = null;
+//		int id = sc.nextInt();
+//		conce = ControladorConcesionario.obtenerId(id);
+//		return conce;
+//		
+//	}
+	
+//	public static void listadoDeConcesionario(Connection conn) throws SQLException {
+//		// Para poder ejecutar una consulta necesitamos utilizar un objeto de tipo
+//		// Statement
+//		Statement s = (Statement) conn.createStatement();
+//		// La ejecución de la consulta se realiza a través del objeto Statement y se
+//		// recibe en forma de objeto
+//		// de tipo ResultSet, que puede ser navegado para descubrir todos los registros
+//		// obtenidos por la consulta
+//		ResultSet rs = s.executeQuery("select * from concesionario");
+//
+//		// Navegación del objeto ResultSet. Los get son el número de columnas que tiene
+//		// cada tabla
+//		while (rs.next()) {
+//			System.out.println(rs.getInt("id") + " " + rs.getString(2) + " " + rs.getString(3));
+//
+//		}
+//	}
+//	
+	/**
+	 * 
+	 */
+	
+	
+}
