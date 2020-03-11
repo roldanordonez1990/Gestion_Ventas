@@ -29,7 +29,7 @@ public class ControladorFabricante {
 
 		em.close();
 		
-		//Repositoriooooooooooooooooooo
+		//Ya lo tenemossss
 		
 //				
 //		Connection conn = null;
